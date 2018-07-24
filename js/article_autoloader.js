@@ -7,27 +7,26 @@
 
       // Iterate over view and remove the view for any article already read (present in the local storage item).
       function removeAlreadyReadNodes(nodeList) {
-        let moreArticleView = $('.view-article-autoloader .view-content .views-row');
+        let viewRow = $('.view-article-autoloader .view-content:not(.filtered) .views-row');
         let removedArticleCount = 0;
 
-        if(moreArticleView.length > 1) {
+        if(viewRow.length > 1) {
           nodeList.forEach(function (element) {
-            if(!$(element).hasClass('filtered')) {
-              moreArticleView.parent().find('.views-row[data-nid="' + element.data + '"]').remove();
+            if(!$(element).parent('.view-content').hasClass('filtered')) {
+              viewRow.parent().find('.views-row[data-nid="' + element.data + '"]').remove();
               removedArticleCount++;
             }
           });
         }
-        else if(moreArticleView.length === 1) {
-          moreArticleView.find('.views-row[data-nid="' + moreArticleView + '"]').remove();
+        else if(viewRow.length === 1) {
+          viewRow.find('.views-row[data-nid="' + viewRow + '"]').remove();
         }
 
-        if($('.view-article-autoloader .view-content').children().length === 0) {
-          console.info('All current view results were filtered out.');
+        if($('.view-article-autoloader .view-content:not(.filtered)').children().length === 0) {
           callView();
         }
 
-        moreArticleView.addClass('filtered');
+        $('.view-article-autoloader .view-content').addClass('filtered');
         autoloadDrupalSettings.filtered_articles += removedArticleCount;
       }
 
@@ -69,8 +68,10 @@
 
       // Get the first row in the view that is not hidden/displayed and show/display it. The first view row is has visibility hidden but is displayed. The rest are not displayed.
       function showNextViewRow() {
-        autoloadDrupalSettings.current_nid_in_view = $('.autoloaded-views-row:not(.visible)').first().attr('data-alias');
-        $('.autoloaded-views-row:not(.visible)').first().addClass('visible').removeClass('autoloaded-view--hidden');
+        let hiddenViewRows = $('.autoloaded-views-row:not(.visible)');
+
+        autoloadDrupalSettings.current_nid_in_view = hiddenViewRows.first().attr('data-alias');
+        hiddenViewRows.first().addClass('visible').removeClass('autoloaded-view--hidden');
       }
 
       function alterUrlAndTitle(title, url) {
@@ -110,7 +111,7 @@
           url: drupalSettings.path.baseUrl + "views/ajax?_wrapper_format=drupal_ajax",
           type: 'post',
           data: {
-            view_name: 'more_articles',
+            view_name: 'article_autoloader',
             view_display_id: 'default',
             view_dom_id: 'autoloader',
             page: currentViewPage

@@ -8,7 +8,7 @@
  * Implements template_preprocess_views_view_unformatted(). Attach data attributes to the view row so we can alter document title and URL to match the article currently in the viewport.
  */
 function article_autoloader_preprocess_views_view_unformatted(&$vars) {
-  if ($vars['view']->id() == 'more_articles') {
+  if ($vars['view']->id() == 'article_autoloader') {
     foreach($vars['rows'] as $row) {
       $nid = $row['content']['#node']->id();
       $url_alias = \Drupal::service('path.alias_manager')->getAliasByPath('/node/' . $nid);
@@ -27,8 +27,8 @@ function article_autoloader_theme($existing, $type, $theme, $path) {
     'article_autoloader' => [
       'variables' => [],
     ],
-    'views_view_unformatted__more_articles' => [
-      'template' => 'views-view-unformatted--more-articles',
+    'views_view_unformatted__article_autoloader' => [
+      'template' => 'views-view-unformatted--article-autoloader',
       'base hook' => 'view'
     ],
   );
