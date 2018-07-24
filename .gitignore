@@ -1,0 +1,13 @@
+# Generic, global ignores
+.idea
+favicon.ico
+.DS_Store
+*.log
+*.map
+node_modules
+.composer-cache
+.sass-cache
+*.sql
+
+vendor
+private

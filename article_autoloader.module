@@ -1,0 +1,58 @@
+<?php
+/**
+ * @file
+ * Code for the article autoloader module.
+ */
+
+/**
+ * Implements template_preprocess_views_view_unformatted(). Attach data attributes to the view row so we can alter document title and URL to match the article currently in the viewport.
+ */
+function article_autoloader_preprocess_views_view_unformatted(&$vars) {
+  if ($vars['view']->id() == 'more_articles') {
+    foreach($vars['rows'] as $row) {
+      $nid = $row['content']['#node']->id();
+      $url_alias = \Drupal::service('path.alias_manager')->getAliasByPath('/node/' . $nid);
+      $row['attributes']->setAttribute('data-alias', $url_alias);
+      $row['attributes']->setAttribute('data-title', $row['content']['#node']->getTitle());
+      $row['attributes']->setAttribute('data-nid', $nid);
+    }
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function article_autoloader_theme($existing, $type, $theme, $path) {
+  return array(
+    'article_autoloader' => [
+      'variables' => [],
+    ],
+    'views_view_unformatted__more_articles' => [
+      'template' => 'views-view-unformatted--more-articles',
+      'base hook' => 'view'
+    ],
+  );
+};
+
+/**
+ * Implements hook_preprocess_block(). Attach required drupal settings for the module to function. Keep it with the block
+ * So wherever it's placed it works.
+ */
+function article_autoloader_preprocess_block__article_autoloader_block(&$vars) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  $current_path = \Drupal::service('path.current')->getPath();
+  $url_alias = \Drupal::service('path.alias_manager')->getAliasByPath($current_path);
+
+  if($route_name === "entity.node.canonical") {
+    $pos = strrpos($current_path, '/');
+    $nid = $pos === false ? $current_path : substr($current_path, $pos + 1);
+
+    $node = Drupal\node\Entity\Node::load($nid);
+    $vars['#attached']['drupalSettings']['autoloader']['nid'] = $nid;
+    $vars['#attached']['drupalSettings']['autoloader']['original_url'] = $url_alias;
+    $vars['#attached']['drupalSettings']['autoloader']['original_title'] = $node->getTitle();
+    $vars['#attached']['drupalSettings']['autoloader']['current_page'] = 0;
+    $vars['#attached']['drupalSettings']['autoloader']['filtered_articles'] = 0;
+    $vars['#attached']['drupalSettings']['autoloader']['next_article_url'] = '';
+  }
+}

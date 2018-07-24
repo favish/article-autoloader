@@ -1,0 +1,7 @@
+article_autoloader:
+  js:
+    /libraries/scrollMonitor/scrollMonitor.js: {}
+    js/article_autoloader.js: {}
+  css:
+    component:
+      style.css: {}

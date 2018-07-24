@@ -1,0 +1,5 @@
+name: Article Autoloader
+description: Enables a system of autoloading articles to keep a user engaged.
+core: 8.x
+package: Custom
+type: module

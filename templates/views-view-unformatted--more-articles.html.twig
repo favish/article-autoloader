@@ -1,0 +1,38 @@
+{#
+/**
+ * @file
+ * Theme override to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ *
+ * @see template_preprocess_views_view_unformatted()
+ */
+#}
+{% if title %}
+    <h3>{{ title }}</h3>
+{% endif %}
+{% for row in rows %}
+    {%
+        set row_classes = [
+        default_row_class ? 'views-row',
+        'autoloaded-view--hidden',
+        'autoloaded-views-row',
+    ]
+    %}
+    {% if loop.first %}
+        {% set row_classes = row_classes|merge(["autoloaded-row--first"]) %}
+    {% elseif loop.last %}
+        {% set row_classes = row_classes|merge(["autoloaded-row--last"]) %}
+    {% endif %}
+    <div{{ row.attributes.addClass(row_classes) }}>
+        {{ row.content }}
+        <div class="autoloaded-load-marker"></div>
+    </div>
+{% endfor %}

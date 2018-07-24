@@ -1,0 +1,31 @@
+{
+  "name": "favish/article_autoloader",
+  "description": "Implements an auto-loading view of more content.",
+  "type": "drupal-module-custom",
+  "license": "GPL-2.0+",
+  "authors": [
+    {
+      "name": "Travis Czerw",
+      "email": "travis@favish.com ",
+      "homepage": "https://www.favish.com/",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "stutrek/scrollMonitor": "1.2.0"
+  },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "stutrek/scrollMonitor",
+        "version": "1.2.0",
+        "type": "drupal-library",
+        "dist": {
+          "url": "https://github.com/stutrek/scrollMonitor/archive/v1.2.0.zip",
+          "type": "zip"
+        }
+      }
+    }
+  ]
+}
