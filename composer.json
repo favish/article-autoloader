@@ -1,6 +1,7 @@
 {
   "name": "favish/article_autoloader",
   "description": "Implements an auto-loading view of more content.",
+  "version": "1.0.0",
   "type": "drupal-module-custom",
   "license": "GPL-2.0+",
   "authors": [
