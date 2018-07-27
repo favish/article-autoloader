@@ -22,6 +22,6 @@ cached heavily. It does however create a local storage item that tracks read nod
 Once the view is loaded, but before it is loaded, the module will filter over the rows and remove any row that contains
 a node that has already been read. If it removes all of the result set, it will re-call the view.
 
-Dependancies:
+Dependencies:
 
 The module relies upon the third-part Javascript library 'scrollMonitor' (https://github.com/stutrek/scrollMonitor). If you are using composer to install this module, you can use wikimedia/composer-merge-plugin to allow your top level composer to merge this modules composer and install the library for you. An example of how to do this is here (https://drupal.stackexchange.com/questions/188519/how-can-i-include-a-third-party-library-in-my-custom-module-without-using-compos).
