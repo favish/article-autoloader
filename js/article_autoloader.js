@@ -131,7 +131,7 @@
           createLastRowWatcher();
           removePager();
           autoloadDrupalSettings.current_page += 1;
-          drupal.attachBehaviors($('#block-articleautoloaderblock'));
+          drupal.attachBehaviors($('#block-articleautoloaderblock')[0]);
         })
         .fail(function(jqXHR, textStatus, errorThrown) {
           console.warn('AJAX failed', textStatus, errorThrown);
